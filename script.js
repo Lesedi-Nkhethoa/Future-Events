@@ -201,7 +201,7 @@ function openShare(evId) {
   currentShareEventId = evId;
   const ev = evId === -1 ? featuredEvent : EVENTS.find(e => e.id === evId);
   document.getElementById("shareEventName").textContent = ev.title;
-  const url = `https://futureevents.co.za/event/${ev.id}?utm_source=share&utm_medium=futureevents`;
+  const url = `https://lesedi-nkhethoa.github.io/Future-Events/${ev.id}?utm_source=share&utm_medium=futureevents`;
   document.getElementById("shareLink").value = url;
   document.getElementById("shareModal").classList.add("open");
 }
