@@ -15,10 +15,10 @@ const EVENTS = [
     city: "Zamdela, Sasolburg",
     price: "R10 per game",
     description: "M&M Arcade Hub visits Zamdela. Bringing the thrill to you!",
-    extra: ,
+    extra: "",
     going: 0,    // ← YOU CAN CHEAT THE COUNT HERE
     interested: 0,
-    featured: true
+    featured: false
   },
 
 ];
