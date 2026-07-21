@@ -6,7 +6,7 @@ const EVENTS = [
   {
     id: 0,
     title: "M&M Arcade Hub - Zamdela",
-    category: "sport",
+    category: "sports",
     emoji: "",
     images: ["Flyer.png", "", ""],  // Replace with image URLs
     date: "Monday & Tuesday, 06 - 07 July 2025",
