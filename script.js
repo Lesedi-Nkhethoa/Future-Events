@@ -201,7 +201,7 @@ function openShare(evId) {
   currentShareEventId = evId;
   const ev = evId === -1 ? featuredEvent : EVENTS.find(e => e.id === evId);
   document.getElementById("shareEventName").textContent = ev.title;
-  const url = `https://lesedi-nkhethoa.github.io/Future-Events/${ev.id}?utm_source=share&utm_medium=futureevents`;
+  const url = `https://future-events.co.za/${ev.id}?utm_source=share&utm_medium=future-events`;
   document.getElementById("shareLink").value = url;
   document.getElementById("shareModal").classList.add("open");
 }
@@ -218,10 +218,10 @@ function shareTo(platform) {
 📍 ${ev.venue}, ${ev.city}
 💰 ${ev.price}
 
-Shared via FUTURE EVENTS - futureevents.co.za`;
+Shared via Future Events - future-events.co.za`;
 
   const links = {
-    whatsapp: `https://wa.me/?text=${encodeURIComponent(text + "\\n" + url)}`,
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(text + "\n" + url)}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`,
     twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
     telegram: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
