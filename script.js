@@ -5,16 +5,18 @@
 const EVENTS = [
   {
     id: 0,
-    title: "M&M Arcade Hub - Zamdela",
-    category: "sports",
+    title: "PARTY WITH CLASS OF 26",
+    category: "",
     emoji: "",
-    images: ["Flyer.png", "", ""],  // Replace with image URLs
-    date: "Monday & Tuesday, 06 - 07 July 2025",
-    time: "10:00  – 16:00 ",
-    venue: "T-Man Carwash (Next to Silver Stone)",
-    city: "Zamdela, Sasolburg",
-    price: "R10 per game",
-    description: "M&M Arcade Hub visits Zamdela. Bringing the thrill to you!",
+    images: ["host1.jpeg", "host2.jpg", "pro1.jpg","pro2.jpg" ,"pro3.jpg" , "pro4.jpg","pro5.jpg" ,"pro6.jpg" , "pro7.jpg", "pro8.jpg", "pro9.jpg", "pro10.jpg", "pro11.jpg", "pro2.jpg", "pro13.jpg", "pro14.jpg"],  // Replace with image URLs
+    date: "21 November 2026",
+    time: "16:00 - 06:00",
+    venue: "Sasolburg (Near Astro)",
+    city: "Sasolburg",
+    price: "General - R80",
+    price: "@The Gate - R100",
+    price: "VIP - R150",
+    description: "Calling all Matriculants of 2026! This one's for you, a celebration built specifically for the Class of 26 as you close this chapter in style. Join us on 21 November for a night of good music, good vibes, and an unforgettable crowd of matriculants coming together to celebrate the journey.",
     extra: "",
     going: 0,    // ← YOU CAN CHEAT THE COUNT HERE
     interested: 0,
