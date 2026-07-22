@@ -14,8 +14,6 @@ const EVENTS = [
     venue: "Sasolburg (Near Astro)",
     city: "Sasolburg",
     price: "General - R80",
-    price: "@The Gate - R100",
-    price: "VIP - R150",
     description: "Calling all Matriculants of 2026! This one's for you, a celebration built specifically for the Class of 26 as you close this chapter in style. Join us on 21 November for a night of good music, good vibes, and an unforgettable crowd of matriculants coming together to celebrate the journey.",
     extra: "",
     going: 0,    // ← YOU CAN CHEAT THE COUNT HERE
