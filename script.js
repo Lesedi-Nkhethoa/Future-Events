@@ -29,9 +29,103 @@ const EVENTS = [
 let userReactions = JSON.parse(localStorage.getItem("fe_reactions") || "{}");
 let reactions = {};
 let currentCategoryFilter = "all";
+let currentRouteEventId = null;
+const SHARE_BASE_URL = "https://future-events.co.za";
 
 function saveReactions() {
   localStorage.setItem("fe_reactions", JSON.stringify(userReactions));
+}
+
+function getEventRouteUrl(ev) {
+  return `${SHARE_BASE_URL}/#/event/${ev.id}`;
+}
+
+function updateMetaTag(name, content, attr = "name") {
+  if (!content) return;
+  const selector = `meta[${attr}="${name}"]`;
+  let tag = document.head.querySelector(selector);
+  if (!tag) {
+    tag = document.createElement("meta");
+    tag.setAttribute(attr, name);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute("content", content);
+}
+
+function updateCanonicalLink(url) {
+  let tag = document.head.querySelector('link[rel="canonical"]');
+  if (!tag) {
+    tag = document.createElement("link");
+    tag.rel = "canonical";
+    document.head.appendChild(tag);
+  }
+  tag.href = url;
+}
+
+function setEventMetaTags(ev) {
+  const title = ev ? `${ev.title} | Future Events` : "Future Events — Event Hub";
+  const description = ev
+    ? `${ev.description} ${ev.date} at ${ev.venue}, ${ev.city}. Tickets from ${ev.price}.`
+    : "Discover the best upcoming events and share them with friends. Future Events is your local go-to for parties, music, food, comedy and more.";
+  const image = ev && ev.images && ev.images.find(Boolean)
+    ? new URL(ev.images.find(Boolean), window.location.origin + window.location.pathname).href
+    : `${SHARE_BASE_URL}/logo-white.png`;
+  const url = ev ? getEventRouteUrl(ev) : SHARE_BASE_URL;
+
+  document.title = title;
+  updateMetaTag("description", description);
+  updateMetaTag("og:title", title, "property");
+  updateMetaTag("og:description", description, "property");
+  updateMetaTag("og:image", image, "property");
+  updateMetaTag("og:url", url, "property");
+  updateMetaTag("twitter:title", title);
+  updateMetaTag("twitter:description", description);
+  updateMetaTag("twitter:image", image);
+  updateCanonicalLink(url);
+}
+
+function clearEventHighlight() {
+  document.querySelectorAll(".event-card.highlighted").forEach(card => {
+    card.classList.remove("highlighted");
+  });
+}
+
+function highlightEventCard(eventId) {
+  clearEventHighlight();
+  const card = document.querySelector(`.event-card[data-event-id="${eventId}"]`);
+  if (card) {
+    card.classList.add("highlighted");
+  }
+}
+
+function scrollToEventCard(eventId) {
+  const card = document.querySelector(`.event-card[data-event-id="${eventId}"]`);
+  if (card) {
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
+
+function parseRoute() {
+  const hash = window.location.hash || "";
+  const match = hash.match(/^#\/event\/(\d+)/);
+  return match ? Number(match[1]) : null;
+}
+
+function handleRoute() {
+  const routeId = parseRoute();
+  const ev = EVENTS.find(e => e.id === routeId);
+
+  if (ev) {
+    currentRouteEventId = routeId;
+    highlightEventCard(routeId);
+    scrollToEventCard(routeId);
+    setEventMetaTags(ev);
+    return;
+  }
+
+  currentRouteEventId = null;
+  clearEventHighlight();
+  setEventMetaTags(featuredEvent);
 }
 
 // Init from event data
@@ -127,6 +221,7 @@ function renderGrid(filtered = null) {
 
     const card = document.createElement("div");
     card.className = "event-card";
+    card.dataset.eventId = ev.id;
     card.dataset.search = (ev.title + " " + ev.city + " " + ev.venue + " " + ev.category + " " + ev.description).toLowerCase();
     card.innerHTML = `
       <div class="card-img-wrap" onclick="openViewer(0, ${ev.id})">
@@ -201,7 +296,7 @@ function openShare(evId) {
   currentShareEventId = evId;
   const ev = evId === -1 ? featuredEvent : EVENTS.find(e => e.id === evId);
   document.getElementById("shareEventName").textContent = ev.title;
-  const url = `https://future-events.co.za/${ev.id}?utm_source=share&utm_medium=future-events`;
+  const url = getEventRouteUrl(ev);
   document.getElementById("shareLink").value = url;
   document.getElementById("shareModal").classList.add("open");
 }
@@ -352,6 +447,8 @@ function closeAdmin() {
 //  INIT
 // ============================================================
 renderGrid();
+handleRoute();
+window.addEventListener("hashchange", handleRoute);
 
 // Navbar scroll effect - make transparent on hero, solid when scrolling past
 window.addEventListener("scroll", () => {
